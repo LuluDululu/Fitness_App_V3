@@ -1,5 +1,6 @@
 package com.fitnessapp.demo.register;
 
+
 public class RegisterDTO {
     private String username;
     private String password;
