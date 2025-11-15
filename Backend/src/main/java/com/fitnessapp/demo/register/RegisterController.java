@@ -17,24 +17,19 @@ public class RegisterController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @GetMapping("/register")
-    public ResponseEntity<List<RegisterDTO>> registerUser() {
+    @GetMapping("register")
+    public list<registerDTO> register() {
+        String sql = "SELECT username, password, age FROM users";
 
-        List<RegisterDTO> list = jdbcTemplate.query(
-                "SELECT username, password, age FROM users\n",
-                new RowMapper<RegisterDTO>() {
-                    @Override
-                    public RegisterDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        RegisterDTO user = new RegisterDTO();
-                        user.setUsername(rs.getString("username"));
-                        user.setPassword(rs.getString("password"));
-                        user.setAge(rs.getInt("age"));
-                        return user;
-                    }
-                }
-             );
+        List<registerDTO> list = jdbcTemplate.query(sql, (rs, rowNum) -> new registerDTO(
+                rs.getString("username"),
+                rs.getString("password"),
+                rs.getInt("age")
+        ));
 
-        return ResponseEntity.ok(list);
-        }
+        return responseEntity.ok(list);
+    }
+
+
     }
 
